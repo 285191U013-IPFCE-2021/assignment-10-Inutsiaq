@@ -13,44 +13,60 @@ node *make_node (int v, node * q)
   node *p = malloc (sizeof (node));
   p->value = v;
 
-  if (q == &SENTINEL_node)
-    p->next = &SENTINEL_node;
+  if (q == NULL)
+    p->next = NULL;
   else
     p->next = q;
   return p;
 }
 
 /* free all nodes in the list p */
-void free_list (node * p)
+void free_list (node **p)
 {
-  node *q = p;
-  while (q != &SENTINEL_node)
+  node *q = *p;
+  while (q != NULL)
     {
       node *t = q->next;
       free (q);
       q = t;
     }
+    (*p) = NULL;
 }
 
 
 /* print list to console */
 void print_list (node * p)
 {
-    // Add your code for exercise 1
-    // There is NO testcode for this
+    printf("[");
+    if (p->next != NULL)
+    {
+      printf("%d", p->value);
+      print_list(p);
+    }
+    else
+      printf("]");
 }
 
 int sum_squares (node * p)
 {
-    // Add your code for excercise 2
-    // You can find the tests in tests.cpp
-    return -1;
+  if (p == NULL)
+    return 0;
+  else
+    return (p->value*p->value + sum_squares(p->next));
 }
 
-node *map (node * p, int (*f) (int))
+node *map (node *p, int (*f)(int))
 {
     // Add your code for excercise 3
+  if (p == NULL)
     return NULL;
+  else 
+  {
+    node *item = malloc(sizeof(node));
+    item->value = f(p->value);
+    item->next = map(p->next, f);
+    return item;
+  }
 }
 
 

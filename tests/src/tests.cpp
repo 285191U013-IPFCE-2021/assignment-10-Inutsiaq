@@ -11,7 +11,7 @@ extern "C"
 
 TEST_CASE("linked_list")
 {
-    	//exercise 2
+    	//exercise 2 
     	int sum;
       node *ns = NULL;
     	ns = make_node (1,
@@ -19,36 +19,38 @@ TEST_CASE("linked_list")
 				   make_node (3,
 					      make_node (4,
 							  make_node (5,
-								    &SENTINEL_node)))));
+								    NULL)))));
 
 	sum = sum_squares (ns);	/* sum should equal 55 */
-  	REQUIRE(sum==55);
-  	free_list(ns);
+   	REQUIRE(sum==55);
+
+  	free_list(&ns);
 	sum=sum_squares(ns);
 	REQUIRE(sum==0);
 
-	ns = make_node (1,&SENTINEL_node);
+	ns = make_node (1,NULL);
 	sum=sum_squares(ns);
-	REQUIRE(sum==1);
-	
+	REQUIRE(sum==1); 
+
+
 	//exercise 3
 	//ns contains one node with the value 1
 	node *mns = map (ns, square);
 	sum=sum_squares(ns);
 	REQUIRE(sum==1);
-	free_list(ns);
+	free_list(&ns);
   	ns = make_node (1,
-			make_node (2,
+		make_node (2,
 				   make_node (3,
-					      &SENTINEL_node)));
-	//ns is 1->2->3
-  	mns = map (ns, square);
-	//ns is 1->4->9
-	sum=sum_squares(ns);
-	//1+16+81 = 98
-	REQUIRE(sum==98);
-	free_list(ns);
-}
+					      NULL)));
+//ns is 1->2->3
+	mns = map (ns, square);
+//ns is 1->4->9
+  sum=sum_squares(mns);
+//1+16+81 = 98
+  REQUIRE(sum==98);
+  free_list(&mns);
+} 
 
 TEST_CASE("btree")
 {
@@ -68,7 +70,9 @@ TEST_CASE("btree")
      //       /     \        /
      //      7      12      42
    */
+
   struct tree_node *root = NULL;
+
 
   root = Initialize (root);
   root = Insert (20, root);
@@ -83,6 +87,7 @@ TEST_CASE("btree")
   root = Insert (40, root);
   root = Insert (45, root);
   root = Insert (42, root);
+
 
   REQUIRE(Contains (20, root) == 1);
   REQUIRE (Contains (5, root) == 1);
@@ -196,5 +201,6 @@ TEST_CASE("btree")
   root = Remove (16, root);
 
 
-  free (root);
+  free (root); 
+
 }
